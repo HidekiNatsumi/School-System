@@ -1,12 +1,6 @@
-pogulogu
+which statement is used to make a loop?
+for
+else
+break
+if
 1
-2
-3
-4
-1
-pogulogu1
-1
-2
-3
-4
-2
