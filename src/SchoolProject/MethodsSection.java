@@ -464,8 +464,13 @@ else{
         }
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Decide how many questions do you want to add");
-        int amount = sc.nextInt();
+   int amount = 0;
+try{
+    System.out.println("Decide how many questions do you want to add");
+    amount = sc.nextInt();
+} catch (Exception e) {
+    System.out.println("Please enter an Integer!");
+}
 
         for (int i = 0; i < amount; i++) {
             System.out.println("Whats the subject's name for this test?");
