@@ -1,3 +1,0 @@
-admin admin 1
-professor professor 2
-student student 3
