@@ -33,6 +33,10 @@ public class Main {
                     case 1:
                         System.out.println("SignIn");
                         class1.Signin();
+                         if(!class1.getFile().exists()){
+                            System.out.println("You haven't signed up!");
+                            break;
+                        }
                         class1.ACCVerification();
                         while(true) {
                             if(class1.isAccexists()!=true){
