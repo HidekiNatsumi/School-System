@@ -1,6 +1,6 @@
-1
-2
+which statement is used to stop a loop?
+for
+while
+break
+if
 3
-4
-5
-1
