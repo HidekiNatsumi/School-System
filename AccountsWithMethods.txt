@@ -1,3 +1,4 @@
-admin admin 1
-professor professor 2
-student student 3
+admin admin 1 no
+professor professor 2 no
+student student 3 no
+hideki natsumi 3 sus
