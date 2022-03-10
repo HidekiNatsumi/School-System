@@ -122,13 +122,13 @@ public class Main {
                                         continue;
                                     }
                                     if(pick==5){
-
+                                        System.out.println("Which student you want to suspend?");
                                         class1.suspendStud();
                                         class1.suspendStudent();
                                         continue;
                                     }
                                     if(pick==6){
-
+                                        System.out.println("Which student you want to unsuspend?");
                                         class1.suspendStud();
                                         class1.unsuspendStudent();
                                         continue;
