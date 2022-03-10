@@ -12,6 +12,7 @@ public class MethodsSection {
     private boolean ProfessorExists = false;
     private boolean StudentExists = false;
     private boolean AdminExists = false;
+    private boolean suspention =false;
     private int sumStud;
     private File file1 = new File("Donationss.txt");
     private int donation;
@@ -20,17 +21,30 @@ public class MethodsSection {
     private int overallscore;
     private String subject;
     private File studScores = new File("StudentsTestScores.txt");
-    private boolean fileEx=false;
+    private boolean fileEx = false;
     private boolean subEx = false;
+    String profChoice, studChoice;
 
     public File getStudScores() {
         return studScores;
     }
+
     public void setStudScores(File studScores) {
         this.studScores = studScores;
     }
 
+    public boolean isSuspention() {
+        return suspention;
+    }
 
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 
     public File getTestFile() {
         return testFile;
@@ -75,9 +89,11 @@ public class MethodsSection {
 
     public MethodsSection() throws FileNotFoundException {
     }
+
     public String getUsername() {
         return username;
     }
+
     public int getSumStud() {
         return sumStud;
     }
@@ -160,11 +176,12 @@ public class MethodsSection {
         boolean pe = false;
         boolean re = false;
         Scanner read2 = new Scanner(file);
-        String username1, password1, role1;
+        String username1, password1, role1,sus;
         while (read2.hasNext()) {
             username1 = read2.next();
             password1 = read2.next();
             role1 = read2.next();
+            sus= read2.next();
             if (username1.equals(username)) {
                 ue = true;
                 break;
@@ -179,7 +196,7 @@ public class MethodsSection {
 
         } else {
             System.out.println("Username isn't occupied!");
-            fw.append(username + " " + password + " " + role + "\n");
+            fw.append(username + " " + password + " " + role + " no\n");
             System.out.println("Account Created");
             fw.close();
         }
@@ -196,11 +213,12 @@ public class MethodsSection {
     public void ACCVerification() throws FileNotFoundException {
         Scanner x = new Scanner(file);
 
-        String tempUsername, tempPassword, tempRole;
+        String tempUsername, tempPassword, tempRole,tempSus;
         while (x.hasNext()) {
             tempUsername = x.next();
             tempPassword = x.next();
             tempRole = x.next();
+            tempSus =x.next();
             if (tempRole.equals("1")) {
 
                 AdminExists = true;
@@ -220,6 +238,12 @@ public class MethodsSection {
             } else {
                 StudentExists = false;
             }
+            if(tempSus.equals("no")){
+                suspention=false;
+            }
+            if(tempSus.equals("sus")){
+                suspention=true;
+            }
 
             if (tempPassword.equals(password) && tempUsername.equals(username)) {
                 Accexists = true;
@@ -227,7 +251,7 @@ public class MethodsSection {
             }
         }
         x.close();
-        while (Accexists) {
+        while (Accexists&&!suspention) {
             if (AdminExists) {
                 System.out.println("Welcome back" + " " + username + "!");
                 System.out.println("You have logged in as an Admin\n");
@@ -252,20 +276,21 @@ public class MethodsSection {
     public void accOrder() throws IOException {
         Scanner read3 = new Scanner(file);
         int count = 0;
-        String username1, password1, role1;
+        String username1, password1, role1,sus;
         while (read3.hasNextLine()) {
             read3.nextLine();
             count++;
         }
         read3.close();
-        int count1 = 1;
+
         Scanner read1 = new Scanner(file);
         String[] arr = new String[count];
         for (int i = 0; i < count; i++) {
             username1 = read1.next();
             password1 = read1.next();
             role1 = read1.next();
-            arr[i] = username1 + " " + password1 + " " + role1;
+            sus= read1.next();
+            arr[i] = username1 +" "+ password1 +" "+ role1+" "+sus;
 
         }
         read1.close();
@@ -295,7 +320,7 @@ public class MethodsSection {
         if (Accexists) {
             Scanner read3 = new Scanner(file);
             int count = 0;
-            String username1, password1, role1;
+            String username1, password1, role1,sus;
             while (read3.hasNextLine()) {
                 read3.nextLine();
                 count++;
@@ -307,7 +332,8 @@ public class MethodsSection {
                 username1 = read1.next();
                 password1 = read1.next();
                 role1 = read1.next();
-                arr[i] = username1 + " " + password1 + " " + role1;
+                sus= read1.next();
+                arr[i] = username1 + " " + password1 + " " + role1+ " "+sus;
             }
             read1.close();
             int count1 = 0;
@@ -319,6 +345,7 @@ public class MethodsSection {
                 username1 = read2.next();
                 password1 = read2.next();
                 role1 = read2.next();
+                sus= read2.next();
                 if (!ue) {
                     count1++;
                 }
@@ -337,11 +364,10 @@ public class MethodsSection {
                 } else {
                     pe = false;
                 }
-                if(role1.equals("3")){
-                    studentExs=true;
-                }
-                else{
-                    studentExs=false;
+                if (role1.equals("3")) {
+                    studentExs = true;
+                } else {
+                    studentExs = false;
                 }
             }
             read2.close();
@@ -361,82 +387,78 @@ public class MethodsSection {
                 }
             }
             fw.close();
-            boolean testExists=false;
-           Scanner r =new Scanner(studScores);
-           String tempy;
-           while(r.hasNext()){
-               tempy = r.next();
-               if(tempy.equals(username)&&studentExs){
-                   testExists=true;
-               }
-               else{
-                   testExists=false;
-               }
-           }
-           r.close();
-
-    if(testExists){
-        File studentsFile = new File(username+".txt");
-        if(studentsFile.exists()){
-            studentsFile.delete();
-        }
-        String tempVal,tempval1;
-        int count123=0;
-        int count1234=0;
-        Scanner filereaderrr = new Scanner(studScores);
-        while (filereaderrr.hasNextLine()) {
-            tempVal=filereaderrr.nextLine();
-            count123++;
-        }
-        filereaderrr.close();
-        String temporary;
-        Scanner filereaderrrr = new Scanner(studScores);
-        while (filereaderrrr.hasNextLine()) {
-            temporary=filereaderrrr.next();
-            if(temporary.equals(username)){
-                break;
+            boolean testExists = false;
+            Scanner r = new Scanner(studScores);
+            String tempy;
+            while (r.hasNext()) {
+                tempy = r.next();
+                if (tempy.equals(username) && studentExs) {
+                    testExists = true;
+                } else {
+                    testExists = false;
+                }
             }
-            else{
+            r.close();
+
+            if (testExists) {
+                File studentsFile = new File(username + ".txt");
+                if (studentsFile.exists()) {
+                    studentsFile.delete();
+                }
+                String tempVal, tempval1;
+                int count123 = 0;
+                int count1234 = 0;
+                Scanner filereaderrr = new Scanner(studScores);
+                while (filereaderrr.hasNextLine()) {
+                    tempVal = filereaderrr.nextLine();
+                    count123++;
+                }
+                filereaderrr.close();
+                String temporary;
+                Scanner filereaderrrr = new Scanner(studScores);
+                while (filereaderrrr.hasNextLine()) {
+                    temporary = filereaderrrr.next();
+                    if (temporary.equals(username)) {
+                        break;
+                    } else {
+                        count1234++;
+                    }
+
+                }
+                filereaderrrr.close();
                 count1234++;
-            }
+                String[] array = new String[count123];
+                int counting = 0;
+                Scanner filereaderr = new Scanner(studScores);
+                while (filereaderr.hasNextLine()) {
+                    tempval1 = filereaderr.nextLine();
+                    array[counting] = tempval1;
+                    counting++;
+                }
+                filereaderr.close();
 
-        }
-        filereaderrrr.close();
-        count1234++;
-        String[]array = new String[count123];
-        int counting=0;
-        Scanner filereaderr = new Scanner(studScores);
-        while (filereaderr.hasNextLine()) {
-            tempval1 = filereaderr.nextLine();
-            array[counting]=tempval1;
-            counting++;
-        }
-        filereaderr.close();
+                for (int o = 0; o < count123; o++) {
+                    if (o == count1234 - 1) {
+                        array[o] = "";
+                    }
+                }
+                PrintWriter writeru = new PrintWriter(studScores);
+                writer.print("");
+                writeru.close();
 
-        for (int o = 0; o < count123; o++) {
-            if (o == count1234-1) {
-                array[o] = "";
+                FileWriter fwww = new FileWriter(studScores, true);
+                for (int i = 0; i < count123; i++) {
+                    if (i != count1234 - 1) {
+                        fwww.append(array[i] + "\n");
+                    }
+                }
+                fwww.close();
+            } else {
+                System.out.println("lotig2");
             }
+        } else {
         }
-        PrintWriter writeru = new PrintWriter(studScores);
-        writer.print("");
-        writeru.close();
-
-        FileWriter fwww = new FileWriter(studScores, true);
-        for (int i = 0; i < count123; i++) {
-            if (i != count1234-1) {
-                fwww.append(array[i] + "\n");
-            }
-        }
-        fwww.close();
     }
-    else{
-        System.out.println("lotig2");
-    }
-}
-else{
-}
-        }
 
 
     public void donate() throws IOException {
@@ -459,18 +481,19 @@ else{
     }
 
     public void createTest() throws IOException {
-        if(!testFile.exists()){
-            File testFile = new File ("Subjects.txt");
+        if (!testFile.exists()) {
+            File testFile = new File("Subjects.txt");
         }
         Scanner sc = new Scanner(System.in);
 
-   int amount = 0;
-try{
-    System.out.println("Decide how many questions do you want to add");
-    amount = sc.nextInt();
-} catch (Exception e) {
-    System.out.println("Please enter an Integer!");
-}
+
+        int amount = 0;
+        try {
+            System.out.println("Decide how many questions do you want to add");
+            amount = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("Please enter an Integer!");
+        }
 
         for (int i = 0; i < amount; i++) {
             System.out.println("Whats the subject's name for this test?");
@@ -478,20 +501,20 @@ try{
             FileWriter fwt = new FileWriter("Subjects.txt", true);
             Scanner scReader = new Scanner(testFile);
             String temp1;
+
             boolean fileExists = false;
-            while(true){
-                while(scReader.hasNext()){
-                    temp1=scReader.next();
-                    if(temp1.equals(fileSubs)){
-                        fileExists=true;
+            while (true) {
+                while (scReader.hasNext()) {
+                    temp1 = scReader.next();
+                    if (temp1.equals(fileSubs)) {
+                        fileExists = true;
                         break;
-                    }
-                    else{
-                        fileExists=false;
+                    } else {
+                        fileExists = false;
                     }
                 }
 
-                if(fileExists){
+                if (fileExists) {
                     File files = new File(fileSubs + ".txt");
                     FileWriter fw = new FileWriter(files, true);
 
@@ -517,7 +540,7 @@ try{
                     break;
                 }
 
-                if(!fileExists){
+                if (!fileExists) {
                     fwt.append(fileSubs + "\n");
                     fwt.close();
                     File files = new File(fileSubs + ".txt");
@@ -548,12 +571,12 @@ try{
             }
 
         }
-        System.out.println(amount+" Tests were created");
+        System.out.println(amount + " Tests were created");
     }
 
     public void takeTest() throws IOException {
-        if(!testFile.exists()){
-            File Allsubs = new File ("Subjects.txt");
+        if (!testFile.exists()) {
+            File Allsubs = new File("Subjects.txt");
         }
         Scanner sc = new Scanner(System.in);
 
@@ -594,7 +617,7 @@ try{
             System.out.println("-------------------------------");
             System.out.println("The " + subject + " test has started!");
             System.out.println("-------------------------------");
-            questions= counting/6;
+            questions = counting / 6;
             String[] str = new String[questions];
             Scanner filereaderr = new Scanner(testfilee);
             while (filereaderr.hasNextLine()) {
@@ -617,8 +640,8 @@ try{
             System.out.println("The question number " + cccc);
             int score = 0;
             int counn = 0;
-            int countc=1;
-            overallscore=0;
+            int countc = 1;
+            overallscore = 0;
             while (filereaderrr.hasNextLine()) {
                 if ((countcount + 1) % 6 != 0) {
                     cccc++;
@@ -637,7 +660,7 @@ try{
                     if (answer == i) {
                         System.out.println("Correct Answer!");
                         countc++;
-                        if(countc-1==questions){
+                        if (countc - 1 == questions) {
                             overallscore++;
                             break;
                         }
@@ -645,12 +668,11 @@ try{
                         overallscore++;
 
 
-                    }
-                    else {
+                    } else {
 
                         System.out.println("Wrong Answer!");
                         countc++;
-                        if(countc-1==questions){
+                        if (countc - 1 == questions) {
                             break;
                         }
                         System.out.println("The question number " + countc);
@@ -664,13 +686,14 @@ try{
             System.out.println("The test you searched for doesn't exist!");
         }
     }
+
     public void openStudentScores() throws FileNotFoundException {
-        if(!studScores.exists()){
-            File studScoress=new File("StudentsTestScores.txt");
+        if (!studScores.exists()) {
+            File studScoress = new File("StudentsTestScores.txt");
         }
         System.out.println("Which Student you desire to check?");
         System.out.println("----------------------------------");
-       Scanner read = new Scanner(studScores);
+        Scanner read = new Scanner(studScores);
         Scanner sc1 = new Scanner(System.in);
         while (read.hasNextLine()) {
 
@@ -678,49 +701,48 @@ try{
         }
         read.close();
 
-        String choice =sc1.nextLine();
+        String choice = sc1.nextLine();
         System.out.println("----------------------------------");
-        System.out.println(choice+" has the following results:");
-        File studentsFile = new File(choice+".txt");
+        System.out.println(choice + " has the following results:");
+        File studentsFile = new File(choice + ".txt");
         String tempVal;
-        boolean studENT=false;
+        boolean studENT = false;
         Scanner filereaderr = new Scanner(studScores);
         while (filereaderr.hasNextLine()) {
             tempVal = filereaderr.nextLine();
-       if(tempVal.equals(choice)){
-           studENT=true;
-           break;
-       }
-       else{
-           studENT=false;
-       }
+            if (tempVal.equals(choice)) {
+                studENT = true;
+                break;
+            } else {
+                studENT = false;
+            }
         }
         filereaderr.close();
-        if(studENT){
+        if (studENT) {
             Scanner readingit = new Scanner(studentsFile);
             while (readingit.hasNextLine()) {
 
                 System.out.println(readingit.nextLine());
             }
             readingit.close();
-        }
-        else{
+        } else {
             System.out.println("The chosen student hasn't taken any test or doesn't Exists!");
         }
     }
+
     public void SaveStudentScores() throws IOException {
 
         File studScores = new File("StudentsTestScores.txt");
-     studScores.createNewFile();
+        studScores.createNewFile();
 
-        File studentScore=new File(username+".txt");
-        FileWriter fw = new FileWriter(studentScore,true);
-            fw.append(subject+" "+overallscore+"/"+questions+"\n");
-                fw.close();
+        File studentScore = new File(username + ".txt");
+        FileWriter fw = new FileWriter(studentScore, true);
+        fw.append(subject + " " + overallscore + "/" + questions + "\n");
+        fw.close();
 
         Scanner scReader = new Scanner(studScores);
         String temp1;
-        while(true) {
+        while (true) {
             while (scReader.hasNext()) {
                 temp1 = scReader.next();
                 if (temp1.equals(username)) {
@@ -731,14 +753,13 @@ try{
                 }
             }
 
-            if(!fileEx){
-                FileWriter fw1 = new FileWriter(studScores,true);
-                fw1.append(username+"\n");
+            if (!fileEx) {
+                FileWriter fw1 = new FileWriter(studScores, true);
+                fw1.append(username + "\n");
 
                 fw1.close();
                 break;
-            }
-           else{
+            } else {
                 break;
             }
         }
@@ -750,7 +771,7 @@ try{
         Scanner read = new Scanner(testFile);
         System.out.println("Which test do you want to remove?");
         System.out.println("---------------------------------");
-        int counttt=0;
+        int counttt = 0;
         while (read.hasNextLine()) {
 
             System.out.println(read.nextLine());
@@ -787,10 +808,10 @@ try{
             read1.close();
             Scanner reading = new Scanner(testFile);
             String temporaryvar;
-            int wcountt=0;
-            while(reading.hasNextLine()){
-                temporaryvar=reading.next();
-                if(temporaryvar.equals(testCHOICE)){
+            int wcountt = 0;
+            while (reading.hasNextLine()) {
+                temporaryvar = reading.next();
+                if (temporaryvar.equals(testCHOICE)) {
                     wcountt++;
                     break;
                 }
@@ -798,7 +819,7 @@ try{
             }
             reading.close();
             for (int o = 0; o < arr.length; o++) {
-                if (o == wcountt-1) {
+                if (o == wcountt - 1) {
                     arr[o] = "";
                 }
             }
@@ -807,65 +828,477 @@ try{
             writer.close();
             FileWriter fw = new FileWriter(testFile, true);
             for (int i = 0; i < arr.length; i++) {
-                if (i != wcountt-1) {
+                if (i != wcountt - 1) {
                     fw.append(arr[i] + "\n");
                 }
             }
             fw.close();
 
-   File testfilee = new File(testCHOICE + ".txt");
-           if(testfilee.delete()){
-               System.out.println("File deleted Successfully");
-           }
+            File testfilee = new File(testCHOICE + ".txt");
+            if (testfilee.delete()) {
+                System.out.println("File deleted Successfully");
+            }
 
-        }
-        else {
+        } else {
             System.out.println("This test doesn't exists!");
         }
     }
-    public void delTempVal(){
-       username="";
-       password="";
-       Accexists =false;
+
+    public void delTempVal() {
+        username = "";
+        password = "";
+        Accexists = false;
     }
-    public void delTempTestVals(){
-        overallscore=0;
-        questions=0;
-        fileEx=false;
-        subEx=false;
+
+    public void delTempTestVals() {
+        overallscore = 0;
+        questions = 0;
+        fileEx = false;
+        subEx = false;
     }
+
     public void checkStudents() throws FileNotFoundException {
         Scanner scanning = new Scanner(file);
-        String temp1,temp2,temp3;
+        String temp1, temp2, temp3,sus;
 
-        boolean studentEx=false;
-        int countStuds=0;
-        while(scanning.hasNext()){
-            temp1=scanning.next();
-            temp2=scanning.next();
-            temp3=scanning.next();
-            if(temp3.equals("3")){
+        boolean studentEx = false;
+        int countStuds = 0;
+        while (scanning.hasNext()) {
+            temp1 = scanning.next();
+            temp2 = scanning.next();
+            temp3 = scanning.next();
+            sus= scanning.next();
+            if (temp3.equals("3")) {
                 countStuds++;
             }
         }
         scanning.close();
-            Scanner scanning1=new Scanner(file);
-        String[]studnames= new String[countStuds];
-        int index=0;
-        while(scanning1.hasNext()){
-            temp1=scanning1.next();
-            temp2=scanning1.next();
-            temp3=scanning1.next();
-            if(temp3.equals("3")){
-            studnames[index]=temp1;
-            index++;
+        Scanner scanning1 = new Scanner(file);
+        String[] studnames = new String[countStuds];
+        int index = 0;
+        while (scanning1.hasNext()) {
+            temp1 = scanning1.next();
+            temp2 = scanning1.next();
+            temp3 = scanning1.next();
+            sus= scanning1.next();
+            if (temp3.equals("3")) {
+                studnames[index] = temp1+" "+sus;
+                index++;
             }
         }
         scanning.close();
         System.out.println("------------------------");
-        for(int i=0;i<countStuds;i++){
+        for (int i = 0; i < countStuds; i++) {
             System.out.println(studnames[i]);
         }
         System.out.println("------------------------");
     }
+
+    public void checkProfessors() throws FileNotFoundException {
+        Scanner scanning = new Scanner(file);
+        String temp1, temp2, temp3,sus;
+
+        boolean studentEx = false;
+        int countStuds = 0;
+        while (scanning.hasNext()) {
+            temp1 = scanning.next();
+            temp2 = scanning.next();
+            temp3 = scanning.next();
+            sus= scanning.next();
+            if (temp3.equals("2")) {
+                countStuds++;
+            }
+        }
+        scanning.close();
+        Scanner scanning1 = new Scanner(file);
+        String[] profnames = new String[countStuds];
+        int index = 0;
+        while (scanning1.hasNext()) {
+            temp1 = scanning1.next();
+            temp2 = scanning1.next();
+            temp3 = scanning1.next();
+            sus= scanning1.next();
+            if (temp3.equals("2")) {
+                profnames[index] = temp1;
+                index++;
+            }
+        }
+        scanning.close();
+        System.out.println("------------------------");
+        for (int i = 0; i < countStuds; i++) {
+            System.out.println(profnames[i]);
+        }
+        System.out.println("------------------------");
+    }
+
+    public void fireProf() throws FileNotFoundException {
+        System.out.println("Which professor you desire to fire?");
+        Scanner input = new Scanner(System.in);
+        Scanner scanning = new Scanner(file);
+        String temp1, temp2, temp3,sus;
+
+        boolean studentEx = false;
+        int countStuds = 0;
+        while (scanning.hasNext()) {
+            temp1 = scanning.next();
+            temp2 = scanning.next();
+            temp3 = scanning.next();
+            sus= scanning.next();
+
+            if (temp3.equals("2")) {
+                countStuds++;
+            }
+        }
+        scanning.close();
+        Scanner scanning1 = new Scanner(file);
+        String[] profnames = new String[countStuds];
+        int index = 0;
+        while (scanning1.hasNext()) {
+            temp1 = scanning1.next();
+            temp2 = scanning1.next();
+            temp3 = scanning1.next();
+            sus= scanning1.next();
+            if (temp3.equals("2")) {
+                profnames[index] = temp1;
+                index++;
+            }
+        }
+        scanning.close();
+        System.out.println("------------------------");
+        for (int i = 0; i < countStuds; i++) {
+            System.out.println(profnames[i]);
+        }
+        System.out.println("------------------------");
+        profChoice = input.nextLine();
+    }
+
+    public void fireProfessor() throws IOException {
+        Scanner read3 = new Scanner(file);
+        int count = 0;
+        String username1, password1, role1;
+        while (read3.hasNextLine()) {
+            read3.nextLine();
+            count++;
+        }
+        read3.close();
+        Scanner read1 = new Scanner(file);
+        String[] arr = new String[count];
+        for (int i = 0; i < count; i++) {
+            username1 = read1.next();
+            password1 = read1.next();
+            role1 = read1.next();
+            arr[i] = username1 + " " + password1 + " " + role1;
+        }
+        read1.close();
+        int count1 = 0;
+        boolean ue = false;
+        boolean pe = false;
+        boolean profEx = false;
+        Scanner read2 = new Scanner(file);
+        while (read2.hasNext()) {
+            username1 = read2.next();
+            password1 = read2.next();
+            role1 = read2.next();
+            if (!ue) {
+                count1++;
+            }
+            if (username1.equals(profChoice)) {
+                ue = true;
+                profEx = true;
+                break;
+            } else {
+                ue = false;
+            }
+        }
+        read2.close();
+
+        if (profEx) {
+            for (int o = 0; o < arr.length; o++) {
+                if (o == count1 - 1) {
+                    arr[o] = "";
+
+                }
+            }
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+            FileWriter fw = new FileWriter(file, true);
+            for (int i = 0; i < arr.length; i++) {
+                if (i != count1 - 1) {
+                    fw.append(arr[i] + "\n");
+                }
+            }
+            fw.close();
+            System.out.println("Professor " + profChoice + " got fired!");
+
+        } else {
+            System.out.println("Professor doesn't Exists!");
+        }
+    }
+
+    public void suspendStud() throws FileNotFoundException {
+        Scanner input = new Scanner(System.in);
+        Scanner scanning = new Scanner(file);
+        String temp1, temp2, temp3,temp4;
+
+        boolean studentEx = false;
+        int countStuds = 0;
+        while (scanning.hasNext()) {
+            temp1 = scanning.next();
+            temp2 = scanning.next();
+            temp3 = scanning.next();
+            temp4 = scanning.next();
+            if (temp3.equals("3")) {
+                countStuds++;
+            }
+        }
+        scanning.close();
+        Scanner scanning1 = new Scanner(file);
+        String[] studnames = new String[countStuds];
+        int index = 0;
+        while (scanning1.hasNext()) {
+            temp1 = scanning1.next();
+            temp2 = scanning1.next();
+            temp3 = scanning1.next();
+            temp4 = scanning1.next();
+
+            if (temp3.equals("3")) {
+                studnames[index] = temp1;
+                index++;
+            }
+        }
+        scanning.close();
+        System.out.println("------------------------");
+        for (int i = 0; i < countStuds; i++) {
+            System.out.println(studnames[i]);
+        }
+        System.out.println("------------------------");
+        studChoice = input.nextLine();
+    }
+
+    public void suspendStudent() throws IOException {
+        System.out.println(studChoice);
+        Scanner read3 = new Scanner(file);
+        int count = 0;
+        String username1, password1, role1,t4;
+        while (read3.hasNextLine()) {
+            read3.nextLine();
+            count++;
+        }
+        read3.close();
+        Scanner read1 = new Scanner(file);
+        String[] arr = new String[count];
+        for (int i = 0; i < count; i++) {
+            username1 = read1.next();
+            password1 = read1.next();
+            role1 = read1.next();
+            t4 = read1.next();
+            if(t4.equals("sus")){
+                arr[i] = username1 + " " + password1 + " " + role1+ " "+t4;
+            }
+            if(t4.equals("no")){
+                arr[i] = username1 + " " + password1 + " " + role1+ " "+t4;
+            }
+
+        }
+        read1.close();
+
+        int count1 = 0;
+        boolean ue = false;
+        boolean pe = false;
+        boolean studEx = false,susEx=false;
+        Scanner read2 = new Scanner(file);
+
+        while (read2.hasNext()) {
+            username1 = read2.next();
+            password1 = read2.next();
+            role1 = read2.next();
+            t4 = read2.next();
+
+            if (username1.equals(studChoice)) {
+                ue = true;
+            } else {
+                ue = false;
+            }
+            if(t4.equals("sus")){
+                susEx=true;
+            }
+            else{
+                susEx=false;
+            }
+            if (!ue) {
+                count1++;
+            }
+            if (ue) {
+                studEx = true;
+                break;
+            }
+        }
+        read2.close();
+if(studEx){
+    if(!susEx) {
+
+        Scanner read12 = new Scanner(file);
+        String[] arr12 = new String[count];
+        int countingup = 0;
+        while (read12.hasNext()) {
+            username1 = read12.next();
+            password1 = read12.next();
+            role1 = read12.next();
+            t4 =read12.next();
+            if(countingup==count){
+                break;
+            }
+            if (countingup == count1 ) {
+                arr12[countingup] = username1 + " " + password1 + " " + role1 + " " + "sus";
+                countingup++;
+
+                continue;
+
+            }
+            if (countingup != count1 ) {
+                if(t4.equals("sus")){
+                    arr12[countingup] = username1 + " " + password1 + " " + role1+ " "+ "sus";
+                    countingup++;
+                    continue;
+                }
+                arr12[countingup] = username1 + " " + password1 + " " + role1+ " "+ "no";
+                countingup++;
+            }
+        }
+        read12.close();
+        PrintWriter writer = new PrintWriter(file);
+        writer.print("");
+        writer.close();
+
+        FileWriter fw = new FileWriter(file);
+        for(int o =0;o<arr12.length;o++){
+            fw.append(arr12[o]+"\n");
+        }
+        fw.close();
+        System.out.println("Student " + studChoice + " got suspended!");
+
+    }
+    else {
+        System.out.println("Student is already suspended");
+    }
 }
+else{
+    System.out.println("Student doesn't Exists!");
+}
+
+        }
+        public void unsuspendStudent() throws IOException {
+            Scanner read3 = new Scanner(file);
+            int count = 0;
+            String username1, password1, role1,t4;
+            while (read3.hasNextLine()) {
+                read3.nextLine();
+                count++;
+            }
+            read3.close();
+            Scanner read1 = new Scanner(file);
+            String[] arr = new String[count];
+            for (int i = 0; i < count; i++) {
+                username1 = read1.next();
+                password1 = read1.next();
+                role1 = read1.next();
+                t4 = read1.next();
+                if(t4.equals("sus")){
+                    arr[i] = username1 + " " + password1 + " " + role1+ " "+t4;
+                }
+                if(t4.equals("no")){
+                    arr[i] = username1 + " " + password1 + " " + role1+ " "+t4;
+                }
+
+            }
+            read1.close();
+            int count1 = 0;
+            boolean ue = false;
+            boolean pe = false;
+            boolean studEx = false,susEx=false;
+            Scanner read2 = new Scanner(file);
+
+            while (read2.hasNext()) {
+                username1 = read2.next();
+                password1 = read2.next();
+                role1 = read2.next();
+                t4 = read2.next();
+
+                if (username1.equals(studChoice)) {
+                    ue = true;
+                } else {
+                    ue = false;
+                }
+                if(t4.equals("sus")){
+                    susEx=true;
+                }
+                else{
+                    susEx=false;
+                }
+                if (!ue) {
+                    count1++;
+                }
+                if (ue) {
+                    studEx = true;
+                    break;
+                }
+
+            }
+            read2.close();
+
+            if(studEx){
+                if(susEx) {
+
+                    Scanner read12 = new Scanner(file);
+                    String[] arr12 = new String[count];
+                    int countingup = 0;
+                    while (read12.hasNext()) {
+                        username1 = read12.next();
+                        password1 = read12.next();
+                        role1 = read12.next();
+                        t4 =read12.next();
+                        if(countingup==count){
+                            break;
+                        }
+                        if (countingup == count1) {
+                            arr12[countingup] = username1 + " " + password1 + " " + role1 + " " + "no";
+                            countingup++;
+
+                            continue;
+
+                        }
+                        if (countingup != count1) {
+                            if(t4.equals("no")){
+                                arr12[countingup] = username1 + " " + password1 + " " + role1+ " "+ "no";
+                                countingup++;
+                                continue;
+                            }
+                            arr12[countingup] = username1 + " " + password1 + " " + role1+ " "+ "sus";
+                            countingup++;
+                        }
+                    }
+                    read12.close();
+
+                    PrintWriter writer = new PrintWriter(file);
+                    writer.print("");
+                    writer.close();
+
+                    FileWriter fw = new FileWriter(file);
+                    for(int o =0;o<arr12.length;o++){
+                        fw.append(arr12[o]+"\n");
+                    }
+                    fw.close();
+                    System.out.println("Student " + studChoice + " got unsuspended!");
+
+                }
+                else {
+                    System.out.println("Student is already unsuspended");
+                }
+            }
+            else{
+
+                System.out.println("Student doesn't Exists!");
+            }
+        }
+    }
