@@ -271,6 +271,7 @@ public class MethodsSection {
         if (!Accexists) {
             System.out.println("Wrong Credentials!");
         }
+
     }
 
     public void accOrder() throws IOException {
@@ -848,6 +849,7 @@ public class MethodsSection {
         username = "";
         password = "";
         Accexists = false;
+        suspention=false;
     }
 
     public void delTempTestVals() {
