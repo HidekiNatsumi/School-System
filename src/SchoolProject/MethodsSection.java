@@ -975,7 +975,7 @@ public class MethodsSection {
     public void fireProfessor() throws IOException {
         Scanner read3 = new Scanner(file);
         int count = 0;
-        String username1, password1, role1;
+        String username1, password1, role1,t4;
         while (read3.hasNextLine()) {
             read3.nextLine();
             count++;
@@ -987,7 +987,8 @@ public class MethodsSection {
             username1 = read1.next();
             password1 = read1.next();
             role1 = read1.next();
-            arr[i] = username1 + " " + password1 + " " + role1;
+            t4 = read1.next();
+            arr[i] = username1 + " " + password1 + " " + role1+ " "+t4;
         }
         read1.close();
         int count1 = 0;
@@ -999,6 +1000,7 @@ public class MethodsSection {
             username1 = read2.next();
             password1 = read2.next();
             role1 = read2.next();
+            t4 = read2.next();
             if (!ue) {
                 count1++;
             }
@@ -1077,7 +1079,6 @@ public class MethodsSection {
     }
 
     public void suspendStudent() throws IOException {
-        System.out.println(studChoice);
         Scanner read3 = new Scanner(file);
         int count = 0;
         String username1, password1, role1,t4;
