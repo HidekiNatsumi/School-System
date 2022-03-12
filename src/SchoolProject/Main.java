@@ -41,9 +41,16 @@ public class Main {
                         }
 
                         class1.ACCVerification();
+                        if(!class1.isAccexists()&&class1.isSuspention()){
+                                break;
+                        }
+                        if(!class1.isAccexists()&&!class1.isSuspention()){
+                            break;
+                        }
                         if(class1.isSuspention()){
                             System.out.println("Your account is suspended contact the admin for further information!");
                             System.out.println("--------------------------------------------------------------------");
+                            class1.delTempVal();
                             break;
                         }
                         while(true) {
