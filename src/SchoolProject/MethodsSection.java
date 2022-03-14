@@ -495,7 +495,6 @@ public class MethodsSection {
         } catch (Exception e) {
             System.out.println("Please enter an Integer!");
         }
-
         for (int i = 0; i < amount; i++) {
             System.out.println("Whats the subject's name for this test?");
             String fileSubs = sc.next();
@@ -520,19 +519,19 @@ public class MethodsSection {
                     FileWriter fw = new FileWriter(files, true);
 
                     System.out.println("Enter the Question");
-                    String question = sc.next();
-
+                     sc.nextLine();
+                    String question =sc.nextLine();
                     System.out.println("Enter the first alternativee");
-                    String question1 = sc.next();
+                    String question1 = sc.nextLine();
 
                     System.out.println("Enter the second alternative");
-                    String question2 = sc.next();
+                    String question2 = sc.nextLine();
 
                     System.out.println("Enter the third alternative");
-                    String question3 = sc.next();
+                    String question3 = sc.nextLine();
 
                     System.out.println("Enter the fourth alternative");
-                    String question4 = sc.next();
+                    String question4 = sc.nextLine();
 
                     System.out.println("Enter the correct alternative");
                     int correct = sc.nextInt();
@@ -548,19 +547,20 @@ public class MethodsSection {
                     FileWriter fw = new FileWriter(files, true);
 
                     System.out.println("Enter the Question");
-                    String question = sc.next();
+                    sc.nextLine();
+                    String question = sc.nextLine();
 
                     System.out.println("Enter the first alternative");
-                    String question1 = sc.next();
+                    String question1 = sc.nextLine();
 
                     System.out.println("Enter the enter the second alternative");
-                    String question2 = sc.next();
+                    String question2 = sc.nextLine();
 
                     System.out.println("Enter the third alternative");
-                    String question3 = sc.next();
+                    String question3 = sc.nextLine();
 
                     System.out.println("Enter the fourth alternative");
-                    String question4 = sc.next();
+                    String question4 = sc.nextLine();
 
                     System.out.println("Enter the correct alternative");
                     int correct = sc.nextInt();
