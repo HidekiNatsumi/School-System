@@ -27,7 +27,7 @@ Can suspend a student
 can Unsuspend a student
 can delete their account
 can log out 
----------------------------------------------------
+
 
 ---
 <strong>Contributors :[Hideki Natsumi](https://github.com/HidekiNatsumi) 
