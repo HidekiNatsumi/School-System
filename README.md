@@ -10,8 +10,10 @@ Student
 <li>Can delete their account</li>
 <li>can log out of their account</li>
 </ul>
+
 Professor
 -
+
 <ul>
 <li>Can create a test</li>
 <li>Can delete a test<li>
@@ -19,8 +21,10 @@ Professor
 <li>Can delete their account<li>
 <li>Can log out of their account</li>
 </ul>
+
 Admin
 -
+
 <ul>
 <li>Can see all registered accounts</li>
 <li>Can see all students </li>
