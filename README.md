@@ -30,4 +30,4 @@ can log out
 
 
 ---
-<strong>Contributors :[Hideki Natsumi](https://github.com/HidekiNatsumi) 
+<strong>Contributor :[Hideki Natsumi](https://github.com/HidekiNatsumi) 
