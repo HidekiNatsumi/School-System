@@ -1,4 +1,4 @@
-  School-System
+  #School-System
 A pretty basic School System
 
 You can login/register as (Student/Professor/Admin)
