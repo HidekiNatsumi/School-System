@@ -1,7 +1,7 @@
 School-System
 ---
 
-A pretty basic School System
+A pretty basic School System(NO GUI)
 
 You can login/register as (Student/Professor/Admin)
 
